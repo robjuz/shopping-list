@@ -30,16 +30,18 @@
       absolute
       app
       appear
+      style="z-index: 1004"
+      :to="{name: 'index-create'}"
   />
 </template>
 
 <script setup lang="ts">
+const route = useRoute()
 const {t} = useI18n();
-
 const localForage = useLocalForage()
 
 
-const { data: shoppingLists, status, error, refresh, clear } = await useAsyncData(
+const {data: shoppingLists, status, error, refresh, clear} = await useAsyncData(
     'shoppingLists',
     async () => {
       const keys = await localForage.keys()
@@ -54,5 +56,7 @@ const { data: shoppingLists, status, error, refresh, clear } = await useAsyncDat
       server: false
     }
 )
+
+watch(() => route.path, (path) => {if (path === '/') refresh()})
 
 </script>
