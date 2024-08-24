@@ -33,7 +33,7 @@ function newItem() {
 </script>
 
 <template>
-  <v-dialog max-width="500" :model-value="true">
+  <v-dialog max-width="500" :model-value="true" @after-leave="router.push({name: 'index'})">
     <form @submit.prevent="handleCreate">
       <v-card>
         <v-text-field
@@ -53,8 +53,8 @@ function newItem() {
                 <v-menu>
                   <template v-slot:activator="{ props }">
                     <v-btn
-                        icon="mdi-calendar"
                         v-bind="props"
+                        icon="mdi-calendar"
                     />
                   </template>
 
@@ -74,6 +74,7 @@ function newItem() {
                     icon="mdi-delete"
                     :title="t('Remote item')"
                     color="error"
+                    size="small"
                 />
               </v-list-item-action>
             </template>
@@ -81,16 +82,22 @@ function newItem() {
         </v-list>
 
           <v-btn
+              :title="t('New item')"
               icon="mdi-plus"
               class="mx-auto"
-              :title="t('New item')"
+              size="small"
               @click="newItem"
           />
 
         <v-card-actions>
           <v-spacer></v-spacer>
 
-          <v-btn :text="t('Create')" type="submit"/>
+          <v-btn
+              color="primary"
+              :text="t('Create list')"
+              type="submit"
+              prepend-icon="mdi-floppy"
+          />
         </v-card-actions>
       </v-card>
     </form>

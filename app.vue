@@ -7,8 +7,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn icon="mdi-dots-vertical">
-        </v-btn>
+        <v-btn icon="mdi-plus"  :to="{name: 'index-create'}" />
       </v-app-bar>
 
     <v-main>
@@ -16,3 +15,5 @@
     </v-main>
   </v-app>
 </template>
+<script setup>
+</script>

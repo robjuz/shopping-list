@@ -1,38 +1,31 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col
-          v-for="shoppingList in shoppingLists"
-          :key="shoppingList.name"
-          cols="4"
-      >
-        <v-card
-            height="200"
-            :title="shoppingList.name"
+      <v-row>
+        <v-col
+            v-for="shoppingList in shoppingLists"
+            :key="shoppingList.name"
+            cols
+            sm="6"
+            md="4"
+            lg="3"
         >
-          <v-list>
-            <v-list-item
-                v-for="shoppingListItem in shoppingList.items"
-                :title="shoppingListItem.name"
-                :subtitle="shoppingListItem.expirationDate?.toLocaleDateString()"
-            />
-          </v-list>
-        </v-card>
-      </v-col>
-    </v-row>
+          <v-card
+              height="200"
+              :title="shoppingList.name"
+          >
+            <v-list>
+              <v-list-item
+                  v-for="shoppingListItem in shoppingList.items"
+                  :title="shoppingListItem.name"
+                  :subtitle="shoppingListItem.expirationDate?.toLocaleDateString()"
+              />
+            </v-list>
+          </v-card>
+        </v-col>
+      </v-row>
   </v-container>
 
   <NuxtPage/>
-
-  <v-fab
-      icon="mdi-plus"
-      location="bottom end"
-      absolute
-      app
-      appear
-      style="z-index: 1004"
-      :to="{name: 'index-create'}"
-  />
 </template>
 
 <script setup lang="ts">
@@ -57,6 +50,8 @@ const {data: shoppingLists, status, error, refresh, clear} = await useAsyncData(
     }
 )
 
-watch(() => route.path, (path) => {if (path === '/') refresh()})
+watch(() => route.path, (path) => {
+  if (path === '/') refresh()
+})
 
 </script>
