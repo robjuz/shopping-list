@@ -9,11 +9,22 @@
             md="4"
             lg="3"
         >
-          <v-card
-              height="200"
-              :title="shoppingList.name"
-          >
-            <v-list>
+          <v-card>
+            <v-toolbar>
+              <v-toolbar-title>
+                {{ shoppingList.name }}
+              </v-toolbar-title>
+
+              <v-toolbar-items>
+                <v-btn
+                    color="error"
+                    icon="mdi-delete"
+                    @click="deleteList(shoppingList)"
+                />
+              </v-toolbar-items>
+            </v-toolbar>
+
+            <v-list class="pt-0" height="150">
               <v-list-item
                   v-for="shoppingListItem in shoppingList.items"
                   :title="shoppingListItem.name"
@@ -40,13 +51,15 @@ const {data: shoppingLists, status, error, refresh, clear} = await useAsyncData(
       const keys = await localForage.keys()
       const data = []
       for (let key of keys) {
-        data.push(
-            await localForage.getItem(key) as ShoppingList
-        )
+        let item = await localForage.getItem(key)
+        data.push({...item, id: key} as ShoppingList)
       }
       return data
     }, {
-      server: false
+      server: false,
+      transform: (value) => {
+        return value as Array<ShoppingList>
+      },
     }
 )
 
@@ -54,4 +67,12 @@ watch(() => route.path, (path) => {
   if (path === '/') refresh()
 })
 
+async function deleteList(list: ShoppingList) {
+  const index = shoppingLists.value?.indexOf(list)
+  if (index !== undefined) {
+    await localForage.removeItem(list.id)
+    shoppingLists.value?.splice(index, 1)
+  }
+
+}
 </script>

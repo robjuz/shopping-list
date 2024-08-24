@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const {t} = useI18n();
-const id = useId()
 
 const shoppingList = ref<ShoppingList>({
   name: '',
@@ -13,7 +12,7 @@ const router = useRouter()
 
 async function handleCreate() {
   const localForage = useLocalForage()
-  await localForage.setItem(id, JSON.parse(JSON.stringify(shoppingList.value)))
+  await localForage.setItem(String((new Date).getTime()), JSON.parse(JSON.stringify(shoppingList.value)))
 
   router.push({name: 'index'})
 }
@@ -28,12 +27,21 @@ function newItem() {
   })
 }
 
+function deleteItem(item: ShoppingListItem) {
+  const index = shoppingList.value.items.indexOf(item)
+  shoppingList.value.items.splice(index, 1)
+}
 
 
 </script>
 
 <template>
-  <v-dialog max-width="500" :model-value="true" @after-leave="router.push({name: 'index'})">
+  <v-dialog
+      :model-value="true"
+      max-width="500"
+      scrollable
+      @after-leave="router.push({name: 'index'})"
+  >
     <form @submit.prevent="handleCreate">
       <v-card>
         <v-text-field
@@ -75,6 +83,7 @@ function newItem() {
                     :title="t('Remote item')"
                     color="error"
                     size="small"
+                    @click="deleteItem(item)"
                 />
               </v-list-item-action>
             </template>
