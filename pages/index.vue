@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    {{ keys }}
     <v-row>
       <v-col
           v-for="shoppingList in shoppingLists"
@@ -21,11 +20,17 @@
         </v-card>
       </v-col>
     </v-row>
-
-    <v-fab app :to="{name: 'index-create'}" icon="mdi-plus" :title="t('New list')"/>
   </v-container>
 
   <NuxtPage/>
+
+  <v-fab
+      icon="mdi-plus"
+      location="bottom end"
+      absolute
+      app
+      appear
+  />
 </template>
 
 <script setup lang="ts">

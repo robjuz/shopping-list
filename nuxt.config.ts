@@ -5,6 +5,9 @@ export default defineNuxtConfig({
   experimental: {
     typedPages: true
   },
+  nitro: {
+    preset: 'github-pages'
+  },
   modules: [
     '@vite-pwa/nuxt',
     'vuetify-nuxt-module',
