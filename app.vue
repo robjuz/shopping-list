@@ -8,7 +8,9 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn icon="mdi-plus" :to="{name: 'index-create'}"/>
+      <v-btn prepend-icon="mdi-plus" :to="{name: 'index-create'}">
+        {{ t('New shopping list') }}
+      </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -17,4 +19,5 @@
   </v-app>
 </template>
 <script setup>
+const {t} = useI18n()
 </script>
