@@ -13,10 +13,11 @@ const route = useRoute()
 
 const id = route.params.id
 
-const {data: shoppingList} = await useAsyncData(
+const {data: shoppingList, status} = await useAsyncData(
     `shoppingList-${id}-edit`,
     async () => await localForage.getItem(id), {
       server: false,
+      lazy: true,
       transform: (value) => {
         return {...value, id} as ShoppingList
       },
@@ -33,9 +34,18 @@ async function handleSave() {
 </script>
 
 <template>
- <shopping-list-dialog
-     v-if="shoppingList"
-     v-model="shoppingList"
-     @submit="handleSave"
- />
+  <v-dialog
+      v-if="!shoppingList || status == 'pending'"
+      :model-value="true"
+      max-width="500"
+      persistent
+  >
+    <v-progress-circular indeterminate class="mx-auto"/>
+  </v-dialog>
+
+  <shopping-list-dialog
+      v-else
+      v-model="shoppingList"
+      @submit="handleSave"
+  />
 </template>

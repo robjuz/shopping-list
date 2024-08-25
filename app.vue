@@ -8,9 +8,11 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn prepend-icon="mdi-plus" :to="{name: 'index-create'}">
-        {{ t('New shopping list') }}
-      </v-btn>
+      <v-btn
+          :title="t('New shopping list')"
+          :to="{name: 'index-create'}"
+          prepend-icon="mdi-plus"
+      />
     </v-app-bar>
 
     <v-main>

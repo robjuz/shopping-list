@@ -72,6 +72,7 @@ async function deleteList(list: ShoppingList) {
                   >
                     {{ t('Edit') }}
                   </v-list-item>
+
                   <v-list-item
                       prepend-icon="mdi-delete"
                       base-color="error"
@@ -84,15 +85,19 @@ async function deleteList(list: ShoppingList) {
             </v-toolbar-items>
           </v-toolbar>
 
-          <v-list class="pt-0">
-            <v-list-item
-                v-for="shoppingListItem in shoppingList.items"
-                :title="[shoppingListItem.quantity, shoppingListItem.name].join(' &times; ')"
-                :subtitle="shoppingListItem.expirationDate ? date.format(shoppingListItem.expirationDate, 'fullDate') : ''"
-            >
+          <v-list>
+            <v-list-item v-for="shoppingListItem in shoppingList.items">
+              <v-list-item-title :class="{'text-decoration-line-through': shoppingListItem.completed}">
+                {{ [shoppingListItem.quantity, shoppingListItem.name].join(' &times; ') }}
+              </v-list-item-title>
+
+              <v-list-item-subtitle v-if="shoppingListItem.expirationDate">
+                {{ date.format(shoppingListItem.expirationDate, 'fullDate') }}
+              </v-list-item-subtitle>
+
               <template #prepend>
                 <v-list-item-action start>
-                  <v-checkbox v-model="shoppingListItem.completed" @input="handleSave(shoppingList)"/>
+                  <v-checkbox-btn v-model="shoppingListItem.completed" @input="handleSave(shoppingList)"/>
                 </v-list-item-action>
               </template>
             </v-list-item>
