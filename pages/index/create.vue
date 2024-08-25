@@ -44,66 +44,70 @@ function deleteItem(item: ShoppingListItem) {
   >
     <form @submit.prevent="handleCreate">
       <v-card>
+
         <v-text-field
             v-model="shoppingList.name"
             :label="t('Name')"
             required
         />
 
-        <v-list>
-          <v-list-item v-for="(item, index) in shoppingList.items" :key="index" o>
-            <v-list-item-title>
+        <v-card-text>
+          <v-row v-for="(item, index) in shoppingList.items" :key="index">
+            <v-col>
               <v-text-field v-model="item.name" required hide-details/>
-            </v-list-item-title>
+            </v-col>
 
-            <template #prepend>
-              <v-list-item-action start>
-                <v-menu>
-                  <template v-slot:activator="{ props }">
+            <v-col cols="auto" align-self="center">
+              <v-menu>
+                <template v-slot:activator="{ props }">
+                  <v-btn
+                      v-bind="props"
+                      :color="item.expirationDate ? 'primary' : ''"
+                      icon="mdi-calendar"
+                  />
+                </template>
+
+                <v-date-picker
+                    v-model="item.expirationDate"
+                    :title="t('Expiration date')"
+                    :min="(new Date()).toDateString()"
+                    hide-header
+                >
+                  <template #actions>
                     <v-btn
-                        v-bind="props"
-                        icon="mdi-calendar"
+                        :text="t('Clear')"
+                        @click="item.expirationDate = undefined"
                     />
                   </template>
+                </v-date-picker>
+              </v-menu>
 
-                  <v-date-picker
-                      v-model="item.expirationDate"
-                      :title="t('Expiration date')"
-                      hide-header
-                      :min="(new Date()).toDateString()"
-                  />
-                </v-menu>
-              </v-list-item-action>
-            </template>
+              <v-btn
+                  :title="t('Remote item')"
+                  class="ms-3"
+                  color="error"
+                  icon="mdi-delete"
+                  size="small"
+                  @click="deleteItem(item)"
+              />
+            </v-col>
+          </v-row>
+        </v-card-text>
 
-            <template #append>
-              <v-list-item-action end>
-                <v-btn
-                    icon="mdi-delete"
-                    :title="t('Remote item')"
-                    color="error"
-                    size="small"
-                    @click="deleteItem(item)"
-                />
-              </v-list-item-action>
-            </template>
-          </v-list-item>
-        </v-list>
-
-          <v-btn
-              :title="t('New item')"
-              icon="mdi-plus"
-              class="mx-auto"
-              size="small"
-              @click="newItem"
-          />
+        <v-btn
+            :title="t('New item')"
+            icon="mdi-plus"
+            class="mx-auto"
+            size="small"
+            @click="newItem"
+        />
 
         <v-card-actions>
           <v-spacer></v-spacer>
 
           <v-btn
               color="primary"
-              :text="t('Create list')"
+              :text="t('Create')"
               type="submit"
               prepend-icon="mdi-floppy"
           />
