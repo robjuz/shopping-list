@@ -1,39 +1,56 @@
 <template>
   <v-container>
-      <v-row>
-        <v-col
-            v-for="shoppingList in shoppingLists"
-            :key="shoppingList.name"
-            cols
-            sm="6"
-            md="4"
-            lg="3"
-        >
-          <v-card>
-            <v-toolbar>
-              <v-toolbar-title>
-                {{ shoppingList.name }}
-              </v-toolbar-title>
+    <v-row>
+      <v-col
+          v-for="shoppingList in shoppingLists"
+          :key="shoppingList.name"
+          cols
+          sm="6"
+          md="4"
+          lg="3"
+      >
+        <v-card :to="{name: 'index-id', params: {id: shoppingList.id }}">
+          <v-toolbar>
+            <v-toolbar-title>
+              {{ shoppingList.name }}
+            </v-toolbar-title>
 
-              <v-toolbar-items>
-                <v-btn
-                    color="error"
-                    icon="mdi-delete"
-                    @click="deleteList(shoppingList)"
-                />
-              </v-toolbar-items>
-            </v-toolbar>
+            <v-toolbar-items>
+              <v-menu>
+                <template v-slot:activator="{ props }">
+                  <v-btn @click.prevent icon="mdi-dots-vertical" variant="text" v-bind="props"/>
+                </template>
 
-            <v-list class="pt-0" height="150">
-              <v-list-item
-                  v-for="shoppingListItem in shoppingList.items"
-                  :title="shoppingListItem.name"
-                  :subtitle="shoppingListItem.expirationDate?.toLocaleDateString()"
-              />
-            </v-list>
-          </v-card>
-        </v-col>
-      </v-row>
+                <v-list>
+                  <v-list-item
+                      prepend-icon="mdi-pen"
+                      base-color="primary"
+                      :to="{name: 'index-id-edit', params: {id: shoppingList.id}}"
+                  >
+                    {{ t('Edit') }}
+                  </v-list-item>
+                  <v-list-item
+                      prepend-icon="mdi-delete"
+                      base-color="error"
+                      @click="deleteList(shoppingList)"
+                  >
+                    {{ t('Delete') }}
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </v-toolbar-items>
+          </v-toolbar>
+
+          <v-list class="pt-0" height="150">
+            <v-list-item
+                v-for="shoppingListItem in shoppingList.items.filter(({completed}) => !completed)"
+                :title="shoppingListItem.name"
+                :subtitle="shoppingListItem.expirationDate?.toLocaleDateString()"
+            />
+          </v-list>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 
   <NuxtPage/>
@@ -45,7 +62,7 @@ const {t} = useI18n();
 const localForage = useLocalForage()
 
 
-const {data: shoppingLists, status, error, refresh, clear} = await useAsyncData(
+const {data: shoppingLists, refresh} = await useAsyncData(
     'shoppingLists',
     async () => {
       const keys = await localForage.keys()
