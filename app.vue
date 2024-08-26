@@ -1,4 +1,5 @@
 <template>
+  <NuxtPwaManifest />
   <v-app>
     <v-navigation-drawer
         v-model="drawer"
@@ -62,5 +63,4 @@ useHead({
   meta: [...(i18nHead.value.meta || [])],
   title: t('app-name')
 })
-
 </script>

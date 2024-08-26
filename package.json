@@ -17,6 +17,7 @@
     "vuetify-nuxt-module": "^0.17.1"
   },
   "devDependencies": {
+    "@vite-pwa/assets-generator": "^0.2.4",
     "@vue/test-utils": "^2.4.6",
     "nuxt3-localforage": "^0.1.2",
     "resize-observer-polyfill": "^1.5.1",
