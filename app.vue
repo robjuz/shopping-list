@@ -13,6 +13,7 @@
           <v-btn
               icon="mdi-close"
               variant="flat"
+              :title="t('settings-show')"
               @click="drawer = false"
           />
         </template>
@@ -58,7 +59,8 @@ useHead({
     lang: i18nHead.value.htmlAttrs!.lang
   },
   link: [...(i18nHead.value.link || [])],
-  meta: [...(i18nHead.value.meta || [])]
+  meta: [...(i18nHead.value.meta || [])],
+  title: t('app-name')
 })
 
 </script>
