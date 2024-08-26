@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const {t} = useI18n();
-const localForage = useLocalForage()
+const localForage = useLocalForage('lists')
 const router = useRouter()
 
 const shoppingList = ref<ShoppingList>({
@@ -23,7 +23,7 @@ async function handleCreate() {
 </script>
 
 <template>
- <shopping-list-dialog
+ <ShoppingListDialog
      v-model="shoppingList"
      @submit="handleCreate"
  />

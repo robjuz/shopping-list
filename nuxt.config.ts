@@ -2,8 +2,14 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
+  ssr: false,
   experimental: {
     typedPages: true
+  },
+  runtimeConfig: {
+    public: {
+
+    }
   },
   nitro: {
     preset: 'github-pages'
@@ -20,6 +26,15 @@ export default defineNuxtConfig({
     },
   },
   localForage: {
-    name: 'shopping-list'
+    instances: [
+      {
+        name: 'lists',
+        storeName: 'lists'
+      },
+      {
+        name: 'settings',
+        storeName: 'settings'
+      }
+    ]
   }
 })

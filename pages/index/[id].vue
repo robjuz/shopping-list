@@ -7,7 +7,7 @@ definePageMeta({
 })
 
 const {t} = useI18n();
-const localForage = useLocalForage()
+const localForage = useLocalForage('lists')
 const router = useRouter()
 const route = useRoute()
 
@@ -43,7 +43,7 @@ async function handleSave() {
     <v-progress-circular indeterminate class="mx-auto"/>
   </v-dialog>
 
-  <shopping-list-dialog
+  <ShoppingListDialog
       v-else
       v-model="shoppingList"
       @submit="handleSave"

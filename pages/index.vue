@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 const {t} = useI18n();
-const localForage = useLocalForage()
+const localForage = useLocalForage('lists')
 const date = useDate()
 
 
@@ -15,8 +15,8 @@ const {data: shoppingLists, refresh} = await useAsyncData(
         data.push({...item, id: key} as ShoppingList)
       }
       return data
-    }, {
-      server: false,
+    },
+    {
       transform: (value) => {
         return value as Array<ShoppingList>
       },
@@ -32,17 +32,29 @@ async function handleSave(shoppingList: ShoppingList) {
 }
 
 async function deleteList(list: ShoppingList) {
+  if (!shoppingLists.value) return
+  if (!list.id) return
+
   const index = shoppingLists.value?.indexOf(list)
-  if (index !== undefined) {
-    await localForage.removeItem(list.id)
-    shoppingLists.value?.splice(index, 1)
-  }
+
+  if (index === undefined) return
+
+  await localForage.removeItem(list.id)
+  shoppingLists.value.splice(index, 1)
 
 }
 </script>
 
 <template>
   <v-container>
+    <v-fab
+        app
+        color="primary"
+        icon="mdi-plus"
+        :title="t('New list')"
+        :to="{name: 'index-create'}"
+    />
+
     <v-row>
       <v-col
           v-for="shoppingList in shoppingLists"
@@ -68,7 +80,7 @@ async function deleteList(list: ShoppingList) {
                   <v-list-item
                       prepend-icon="mdi-pen"
                       base-color="primary"
-                      :to="{name: 'index-id', params: {id: shoppingList.id}}"
+                      :to="{name: 'index-id', params: {id: shoppingList.id as string}}"
                   >
                     {{ t('Edit') }}
                   </v-list-item>
