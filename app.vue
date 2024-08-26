@@ -18,7 +18,7 @@
         </template>
       </v-toolbar>
 
-      <v-divider />
+      <v-divider/>
 
       <v-container class="px-3 py-3">
         <ThemeOptions/>
@@ -31,9 +31,9 @@
         {{ t('app-name') }}
       </v-app-bar-title>
 
-      <v-spacer />
+      <v-spacer/>
 
-      <LanguageSwitch />
+      <LanguageSwitch/>
       <v-btn icon="mdi-cog" @click="drawer = true"/>
     </v-app-bar>
 
@@ -42,8 +42,23 @@
     </v-main>
   </v-app>
 </template>
-<script setup>
+<script setup lang="ts">
 
 const {t} = useI18n()
 const drawer = ref(false)
+
+const i18nHead = useLocaleHead({
+  addDirAttribute: true,
+  identifierAttribute: 'id',
+  addSeoAttributes: true
+})
+
+useHead({
+  htmlAttrs: {
+    lang: i18nHead.value.htmlAttrs!.lang
+  },
+  link: [...(i18nHead.value.link || [])],
+  meta: [...(i18nHead.value.meta || [])]
+})
+
 </script>

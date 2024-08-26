@@ -25,11 +25,9 @@ export default defineNuxtConfig({
     instances: [
       {
         name: 'lists',
-        storeName: 'lists'
       },
       {
         name: 'settings',
-        storeName: 'settings'
       }
     ]
   },
@@ -38,11 +36,13 @@ export default defineNuxtConfig({
     locales: [
       {
         code: 'en',
+        iso: 'en-US',
         file: 'en-US.json',
-        name: 'English'
+        name: 'English',
       },
       {
         code: 'de',
+        iso: 'de-DE',
         file: 'de-DE.json',
         name: 'Deutsch'
       }

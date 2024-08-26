@@ -8,6 +8,7 @@ const { t, locales, locale: currentLocale, setLocale  } = useI18n()
       <v-btn
           icon="mdi-translate"
           v-bind="props"
+          :title="t('language-change')"
       >
       </v-btn>
     </template>
