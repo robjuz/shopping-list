@@ -6,11 +6,6 @@ export default defineNuxtConfig({
   experimental: {
     typedPages: true
   },
-  runtimeConfig: {
-    public: {
-
-    }
-  },
   nitro: {
     preset: 'github-pages'
   },
@@ -36,5 +31,19 @@ export default defineNuxtConfig({
         storeName: 'settings'
       }
     ]
+  },
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        file: 'en-US.json'
+      },
+      {
+        code: 'de',
+        file: 'de-DE.json'
+      }
+    ],
+    langDir: 'locales',
+    defaultLocale: 'en'
   }
 })

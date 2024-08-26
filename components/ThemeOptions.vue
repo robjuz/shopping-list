@@ -1,27 +1,35 @@
 <template>
-  <v-radio-group
-      v-model="userTheme"
-      class="mb-2"
-      color="primary"
-      true-icon="mdi-check-circle-outline"
-      hide-details
-  >
-    <v-radio
-        v-for="(item, i) in items"
-        :key="i"
-        :value="item.value"
-    >
-      <template #label>
-        <v-icon :icon="item.icon" start />
+  <div>
+    <div class="mb-3">
+      <v-label :text="t('theme')" class="mb-2 font-weight-medium"/>
 
-        {{ item.text }}
-      </template>
-    </v-radio>
-  </v-radio-group>
+      <v-messages :messages="t('theme-message')" active/>
+    </div>
+
+    <v-radio-group
+        v-model="userTheme"
+        class="mb-2"
+        color="primary"
+        true-icon="mdi-check-circle-outline"
+        hide-details
+    >
+      <v-radio
+          v-for="(item, i) in items"
+          :key="i"
+          :value="item.value"
+      >
+        <template #label>
+          <v-icon :icon="item.icon" start/>
+
+          {{ item.text }}
+        </template>
+      </v-radio>
+    </v-radio-group>
+  </div>
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n()
+const {t} = useI18n()
 const theme = useTheme()
 
 const localForge = useLocalForage('settings')
@@ -31,20 +39,21 @@ let media: MediaQueryList
 const systemTheme = ref('light')
 const userTheme = ref('light')
 
-systemTheme.value =  await localForge.getItem('theme') ?? 'light'
+userTheme.value = await localForge.getItem('theme') ?? 'light'
 
 watch(userTheme, val => {
   if (val === 'system') {
     media = getMatchMedia()!
-    media.addListener(onThemeChange)
+    media.addEventListener('change', onThemeChange)
     onThemeChange()
   } else if (media) {
-    media.removeListener(onThemeChange)
+    media.removeEventListener('change', onThemeChange)
   }
-}, { immediate: true })
-function onThemeChange () {
+}, {immediate: true})
+
+function onThemeChange() {
   systemTheme.value = media!.matches ? 'dark' : 'light'
-  localForge.setItem('theme', systemTheme.value)
+  localForge.setItem('theme', userTheme.value)
 }
 
 watchEffect(() => {
@@ -53,9 +62,10 @@ watchEffect(() => {
   )
 })
 
-function getMatchMedia () {
+function getMatchMedia() {
   return window.matchMedia('(prefers-color-scheme: dark)')
 }
+
 const items = [
   {
     text: t('light'),

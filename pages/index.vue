@@ -47,13 +47,13 @@ async function deleteList(list: ShoppingList) {
 
 <template>
   <v-container>
-    <v-fab
-        app
-        color="primary"
-        icon="mdi-plus"
-        :title="t('New list')"
-        :to="{name: 'index-create'}"
-    />
+<!--    <v-fab-->
+<!--        app-->
+<!--        color="primary"-->
+<!--        icon="mdi-plus"-->
+<!--        :title="t('new-list')"-->
+<!--        :to="{name: 'index-create'}"-->
+<!--    />-->
 
     <v-row>
       <v-col
@@ -82,7 +82,7 @@ async function deleteList(list: ShoppingList) {
                       base-color="primary"
                       :to="{name: 'index-id', params: {id: shoppingList.id as string}}"
                   >
-                    {{ t('Edit') }}
+                    {{ t('edit') }}
                   </v-list-item>
 
                   <v-list-item
@@ -90,7 +90,7 @@ async function deleteList(list: ShoppingList) {
                       base-color="error"
                       @click="deleteList(shoppingList)"
                   >
-                    {{ t('Delete') }}
+                    {{ t('delete') }}
                   </v-list-item>
                 </v-list>
               </v-menu>
