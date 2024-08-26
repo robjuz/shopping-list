@@ -47,13 +47,13 @@ async function deleteList(list: ShoppingList) {
 
 <template>
   <v-container>
-<!--    <v-fab-->
-<!--        app-->
-<!--        color="primary"-->
-<!--        icon="mdi-plus"-->
-<!--        :title="t('new-list')"-->
-<!--        :to="{name: 'index-create'}"-->
-<!--    />-->
+    <v-fab
+        app
+        color="primary"
+        icon="mdi-plus"
+        :title="t('list-new')"
+        :to="{name: 'index-create'}"
+    />
 
     <v-row>
       <v-col

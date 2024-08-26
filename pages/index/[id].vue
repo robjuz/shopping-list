@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import type {RouteLocationNormalizedLoadedTyped} from "vue-router";
+import type {RouteNamedMap} from "vue-router/auto";
+
 definePageMeta({
-  validate: async (route) => {
+  validate: async (route: RouteLocationNormalizedLoadedTyped<RouteNamedMap, "index-id">) => {
     // Check if the id is made up of digits
     return typeof route.params.id === 'string' && /^\d+$/.test(route.params.id)
   }
@@ -9,15 +12,13 @@ definePageMeta({
 const {t} = useI18n();
 const localForage = useLocalForage('lists')
 const router = useRouter()
-const route = useRoute()
+const route = useRoute('index-id')
 
 const id = route.params.id
 
 const {data: shoppingList, status} = await useAsyncData(
-    `shoppingList-${id}-edit`,
+    `shoppingList-${id}`,
     async () => await localForage.getItem(id), {
-      server: false,
-      lazy: true,
       transform: (value) => {
         return {...value, id} as ShoppingList
       },
@@ -34,17 +35,7 @@ async function handleSave() {
 </script>
 
 <template>
-  <v-dialog
-      v-if="!shoppingList || status == 'pending'"
-      :model-value="true"
-      max-width="500"
-      persistent
-  >
-    <v-progress-circular indeterminate class="mx-auto"/>
-  </v-dialog>
-
   <ShoppingListDialog
-      v-else
       v-model="shoppingList"
       @submit="handleSave"
   />

@@ -36,7 +36,7 @@ function deleteItem(item: ShoppingListItem) {
           <v-toolbar-title>
             <v-text-field
                 v-model="shoppingList.name"
-                :label="t('List name')"
+                :label="t('list-name')"
                 hide-details
                 required
                 variant="plain"
@@ -45,7 +45,7 @@ function deleteItem(item: ShoppingListItem) {
 
 
           <v-toolbar-items>
-            <v-btn icon="mdi-close" :to="{name: 'index'}" size="small"/>
+            <v-btn icon="mdi-close" :to="{ name: 'index' }" size="small"/>
           </v-toolbar-items>
         </v-toolbar>
 
@@ -54,7 +54,7 @@ function deleteItem(item: ShoppingListItem) {
           <v-text-field
               v-for="(item, index) in shoppingList.items" :key="index"
               v-model="item.name"
-              :label="t('Product name')"
+              :label="t('product-name')"
               required
               variant="outlined"
               density="compact"
@@ -63,7 +63,7 @@ function deleteItem(item: ShoppingListItem) {
             <template #prepend>
               <v-text-field
                   v-model="item.quantity"
-                  :label="t('Quantity')"
+                  :label="t('quantity')"
                   hide-details
                   min="1"
                   type="number"
@@ -76,23 +76,22 @@ function deleteItem(item: ShoppingListItem) {
               <v-btn-group density="compact">
                 <v-btn
                     :color="item.expirationDate ? 'primary' : ''"
-                    :title="t('Expiration date')"
-                    icon
+                    :icon="true"
+                    :title="t('expiration-date')"
                 >
                   <v-icon size="small">mdi-calendar</v-icon>
 
-                  <v-menu activator="parent">
+                  <v-menu activator="parent" :close-on-content-click="false">
                     <v-date-picker
-
                         :model-value="item.expirationDate ? date.date(item.expirationDate) : undefined"
-                        :title="t('Expiration date')"
+                        :title="t('expiration-date')"
+                        :header="t('select-date')"
                         :min="(new Date()).toDateString()"
-                        hide-header
                         @update:model-value="item.expirationDate = $event"
                     >
                       <template #actions>
                         <v-btn @click="item.expirationDate = undefined">
-                          {{ t('Clear') }}
+                          {{ t('clear') }}
                         </v-btn>
                       </template>
                     </v-date-picker>
@@ -100,9 +99,9 @@ function deleteItem(item: ShoppingListItem) {
                 </v-btn>
 
                 <v-btn
-                    :title="t('Remote product')"
+                    :icon="true"
+                    :title="t('product-remove')"
                     color="error"
-                    icon
                     @click="deleteItem(item)"
                 >
                   <v-icon size="small">mdi-delete</v-icon>
@@ -113,13 +112,13 @@ function deleteItem(item: ShoppingListItem) {
         </v-card-text>
 
         <v-btn
-            :title="t('New item')"
+            :title="t('product-next')"
             prepend-icon="mdi-plus"
             class="mx-auto mb-1"
             size="small"
             @click="newItem"
         >
-          {{ t('Next product') }}
+          {{ t('product-next') }}
         </v-btn>
 
         <v-divider />
@@ -129,7 +128,7 @@ function deleteItem(item: ShoppingListItem) {
 
           <v-btn
               color="primary"
-              :text="shoppingList.id ? t('Save') : t('Create')"
+              :text="shoppingList.id ? t('save') : t('create')"
               type="submit"
               prepend-icon="mdi-floppy"
           />

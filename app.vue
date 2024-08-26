@@ -3,7 +3,7 @@
     <v-navigation-drawer
         id="settings-drawer"
         v-model="drawer"
-        :location="isRtl ? 'left' : 'right'"
+        location="right"
         width="350"
         disable-route-watcher
         temporary
@@ -29,11 +29,12 @@
 
     <v-app-bar density="compact">
       <v-app-bar-title>
-        Shopping Lists
+        {{ t('app-name') }}
       </v-app-bar-title>
 
       <v-spacer />
 
+      <LanguageSwitch />
       <v-btn icon="mdi-cog" @click="drawer = true"/>
     </v-app-bar>
 
@@ -43,8 +44,7 @@
   </v-app>
 </template>
 <script setup>
-const {t} = useI18n()
-const { isRtl } = useRtl()
 
-const drawer = ref(true)
+const {t} = useI18n()
+const drawer = ref(false)
 </script>

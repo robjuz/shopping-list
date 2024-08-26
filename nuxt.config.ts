@@ -33,14 +33,17 @@ export default defineNuxtConfig({
     ]
   },
   i18n: {
+    strategy: 'no_prefix',
     locales: [
       {
         code: 'en',
-        file: 'en-US.json'
+        file: 'en-US.json',
+        name: 'English'
       },
       {
         code: 'de',
-        file: 'de-DE.json'
+        file: 'de-DE.json',
+        name: 'Deutsch'
       }
     ],
     langDir: 'locales',
