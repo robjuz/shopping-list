@@ -32,14 +32,19 @@
 const {t} = useI18n()
 const theme = useTheme()
 
-const localForge = useLocalForage('settings')
+const localForage = useLocalForage('settings')
 
 let media: MediaQueryList
 
 const systemTheme = ref('light')
-const userTheme = ref('light')
 
-userTheme.value = await localForge.getItem('theme') ?? 'light'
+const {data: userTheme} = await useAsyncData(
+    async () => await localForage.getItem('theme') ?? 'light',
+    {
+      server: false,
+      default: () => 'light'
+    }
+)
 
 watch(userTheme, val => {
   if (val === 'system') {
@@ -53,7 +58,7 @@ watch(userTheme, val => {
 
 function onThemeChange() {
   systemTheme.value = media!.matches ? 'dark' : 'light'
-  localForge.setItem('theme', userTheme.value)
+  localForage.setItem('theme', userTheme.value)
 }
 
 watchEffect(() => {

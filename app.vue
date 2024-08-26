@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-navigation-drawer
-        id="settings-drawer"
         v-model="drawer"
         location="right"
         width="350"

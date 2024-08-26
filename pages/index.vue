@@ -17,6 +17,7 @@ const {data: shoppingLists, refresh} = await useAsyncData(
       return data
     },
     {
+      server: false,
       transform: (value) => {
         return value as Array<ShoppingList>
       },
@@ -52,7 +53,7 @@ async function deleteList(list: ShoppingList) {
         color="primary"
         icon="mdi-plus"
         :title="t('list-new')"
-        :to="{name: 'index-create'}"
+        :to="{ name: 'index-create' }"
     />
 
     <v-row>
