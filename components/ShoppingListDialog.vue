@@ -86,7 +86,6 @@ function deleteItem(item: ShoppingListItem) {
                         :model-value="item.expirationDate ? date.date(item.expirationDate) : undefined"
                         :title="t('expiration-date')"
                         :header="t('select-date')"
-                        :min="(new Date()).toDateString()"
                         @update:model-value="item.expirationDate = $event"
                     >
                       <template #actions>

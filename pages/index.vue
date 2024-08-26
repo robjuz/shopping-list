@@ -113,6 +113,18 @@ async function deleteList(list: ShoppingList) {
                   <v-checkbox-btn v-model="shoppingListItem.completed" @input="handleSave(shoppingList)"/>
                 </v-list-item-action>
               </template>
+
+              <template #append v-if="shoppingListItem.expirationDate">
+                <v-list-item-action end v-if="date.isAfter(date.date(), date.date(shoppingListItem.expirationDate))">
+                  <v-btn :icon="true" color="error" density="compact">
+                    <v-icon>mdi-exclamation</v-icon>
+
+                    <v-tooltip activator="parent" location="top">
+                      {{ t('product-expired')}}
+                    </v-tooltip>
+                  </v-btn>
+                </v-list-item-action>
+              </template>
             </v-list-item>
           </v-list>
         </v-card>
