@@ -85,6 +85,9 @@ export default defineNuxtConfig({
           "purpose": "maskable"
         }
       ]
+    },
+    workbox: {
+      globPatterns: ['**/*.{js,css,html,ico,png,svg}']
     }
   }
 })
